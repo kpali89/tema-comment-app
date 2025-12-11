@@ -1,6 +1,19 @@
 <template>
   <div class="container">
     <h1>Téma-Komment Alkalmazás</h1>
+    <div class="new-tema-form">
+      <h3>Új Téma Létrehozása</h3>
+      <form @submit.prevent="submitNewTema">
+        <input 
+          type="text" 
+          v-model="newTemaTitle" 
+          placeholder="Írd be az új téma címét" 
+          required 
+          maxlength="100"
+        />
+        <button type="submit" :disabled="isPosting">{{ isPosting ? 'Mentés...' : 'Téma Küldése' }}</button>
+      </form>
+    </div>
     <div v-if="loading" class="loading">Adatok betöltése...</div>
     <div v-else-if="error" class="error">Hiba történt: {{ error.message }}</div>
 
@@ -39,6 +52,37 @@ const API_URL = 'https://turbo-space-broccoli-xv5445qwx9hpwrp-5178.app.github.de
 const temak = ref([]);
 const loading = ref(true);
 const error = ref(null);
+
+const newTemaTitle = ref('');
+const isPosting = ref(false); // Blokkolja a gombot a mentés alatt
+
+const submitNewTema = async () => {
+  if (!newTemaTitle.value || isPosting.value) return;
+
+  isPosting.value = true;
+  
+  // A minimalista JSON adat, amire a C# API-nak szüksége van:
+  const payload = {
+    cim: newTemaTitle.value
+  };
+
+  try {
+    // POST kérés küldése a C# API-nak
+    const response = await axios.post(API_URL, payload);
+    
+    // Az API visszaadja a teljes, új Témát (ID-vel, Kommentek listával együtt).
+    // Ezt szúrjuk be a Vue adatok elejére:
+    temak.value.unshift(response.data); 
+    
+    newTemaTitle.value = ''; // Űrlap ürítése
+    
+  } catch (err) {
+    alert('Hiba történt az új téma mentésekor.');
+    console.error("POST Hiba:", err);
+  } finally {
+    isPosting.value = false;
+  }
+};
 
 // Dátum formázó segédfüggvény
 const formatDate = (dateString) => {
