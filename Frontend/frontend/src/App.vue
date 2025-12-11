@@ -31,7 +31,7 @@ import axios from 'axios';
 // ----------------------------------------------------
 // A Codespaces futtatásakor ez a port a publikus címen lesz elérhető.
 // A C# backendet a 5178-as porton indítottad el.
-const API_URL = 'http://localhost:5178/api/temak'; 
+const API_URL = 'https://turbo-space-broccoli-xv5445qwx9hpwrp-5178.app.github.dev/api/temak'; 
 // NOTE: Ezt a Codespaces-ben futtatáskor a VS Code automatikusan Proxy-zza!
 // ----------------------------------------------------
 

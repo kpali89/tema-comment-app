@@ -15,4 +15,18 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ÚJ KÓD RÉSZ <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+  server: {
+    // Ezzel a beállítással felülírjuk a Codespaces-ben a proxyzást.
+    // Ha a frontend hívja a /api címet, átirányítjuk a backend portjára.
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5178', // A C# API címe és portja
+        changeOrigin: true,
+        secure: false, // Fejlesztéshez
+        // rewrite: (path) => path.replace(/^\/api/, ''), // Nem kell, mert a C# is /api-val kezdi
+      }
+    }
+  }
+  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> VÉGE AZ ÚJ KÓDNAK <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 })
