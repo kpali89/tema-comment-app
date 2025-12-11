@@ -142,4 +142,34 @@ onMounted(fetchTemak);
   text-align: center;
   font-weight: bold;
 }
+.new-tema-form {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding: 20px;
+  border: 1px solid #3498db;
+  border-radius: 8px;
+  background-color: #ecf0f1;
+}
+
+.new-tema-form input[type="text"] {
+  width: 70%;
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.new-tema-form button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  background-color: #3498db;
+  color: white;
+  cursor: pointer;
+}
+
+.new-tema-form button:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+}
 </style>
