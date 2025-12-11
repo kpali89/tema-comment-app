@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using TemaKommentApp.Models; // <-- Győződj meg róla, hogy ez szerepel
+using System.Text.Json.Serialization;
 
 namespace TemaKommentApp.Models
 {
@@ -27,6 +28,7 @@ namespace TemaKommentApp.Models
 
         // Navigációs tulajdonság: Egy Komment egy Témához tartozik.
         [ForeignKey("TemaId")]
+        [JsonIgnore]
         public Tema? Tema { get; set; } // '?' jelzi, hogy lehet null, ha nincs betöltve
     }
 }
