@@ -1,1 +1,27 @@
-
+{
+  "name": "Dotnet & Vue App",
+  // Bázis image, ami tartalmazza a .NET-et és a Node-ot (ajánlott)
+  "image": "mcr.microsoft.com/devcontainers/universal:latest", 
+  
+  "features": {
+    "ghcr.io/devcontainers/features/dotnet:2": { 
+      "version": "7.0" // Vagy a legfrissebb LTS verzió
+    },
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "18" // Vagy a preferált verzió
+    }
+  },
+  
+  // Portok továbbítása, hogy a böngésződben lásd az eredményt
+  "forwardPorts": [5000, 8080], 
+  
+  // Bővítmények, amik jól jönnek C#-hoz és Vue-hoz
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-dotnettools.csharp",
+        "Vue.volar"
+      ]
+    }
+  }
+}
