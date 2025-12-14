@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore; // Fontos az Include-hoz!
 using TemaKommentApp.Data;
 using TemaKommentApp.Models;
+using TemaKommentApp.DTOs;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -50,4 +51,32 @@ public class TemakController : ControllerBase
         // 201 Created státuszkód és a létrejött erőforrás visszaküldése.
         return CreatedAtAction(nameof(GetTemak), new { id = tema.Id }, tema);
     }
+
+    [HttpPost("Komment")] // Ezt a végpontot POST /api/Temak/Komment címen lehet hívni
+        public async Task<ActionResult<Komment>> PostKomment(KommentCreateDto kommentDto)
+        {
+            // 1. Ellenőrizzük, létezik-e a megadott TemaId
+            var tema = await _context.Temak.FindAsync(kommentDto.TemaId);
+
+            if (tema == null)
+            {
+                return NotFound($"A megadott TemaId ({kommentDto.TemaId}) nem található.");
+            }
+
+            // 2. Létrehozzuk a Komment modellt a DTO-ból
+            var komment = new Komment
+            {
+                TemaId = kommentDto.TemaId,
+                FelhasznaloNev = kommentDto.FelhasznaloNev,
+                Szoveg = kommentDto.Szoveg,
+                Datum = DateTime.Now // Dátum automatikus beállítása
+            };
+
+            // 3. Adatbázis mentés
+            _context.Kommentek.Add(komment);
+            await _context.SaveChangesAsync();
+
+            // 4. Sikeres válasz (201 Created), visszaküldve a teljes Komment objektumot
+            return CreatedAtAction(nameof(GetTemak), new { id = komment.Id }, komment);
+        }
 }
